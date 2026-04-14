@@ -1,12 +1,13 @@
 // GANTI ISI DI DALAM KURUNG KURAWAL INI DENGAN DATA DARI FIREBASE KAMU
 const firebaseConfig = {
-  apiKey: "PASTE_API_KEY_KAMU",
-  authDomain: "bookingfutsal-xxxx.firebaseapp.com",
-  databaseURL: "https://bookingfutsal-xxxx-default-rtdb.firebaseio.com",
-  projectId: "bookingfutsal-xxxx",
-  storageBucket: "bookingfutsal-xxxx.appspot.com",
-  messagingSenderId: "xxxxxxxx",
-  appId: "x:xxxxxxx:web:xxxxxxx"
+  apiKey: "AIzaSyAXCRzyat67SeXm9HEvFJaahpBNI_qN4mg",
+  authDomain: "bookingfutsal-98db6.firebaseapp.com",
+  databaseURL: "https://bookingfutsal-98db6-default-rtdb.firebaseio.com",
+  projectId: "bookingfutsal-98db6",
+  storageBucket: "bookingfutsal-98db6.firebasestorage.app",
+  messagingSenderId: "185546726",
+  appId: "1:185546726:web:c09450b9e58b0ea15d4827",
+  measurementId: "G-MRN1WB5RTP"
 };
 
 // Hubungkan ke Library Firebase
