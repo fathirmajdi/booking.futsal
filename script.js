@@ -25,26 +25,32 @@ window.tambahBooking = function() {
     const jam = document.getElementById('jam').value;
 
     if (nama && tanggal) {
-        push(dbRef, { nama, tanggal, jam }); // Simpan ke Cloud
-        document.getElementById('nama').value = "";
-        alert("Booking Berhasil Simpan di Cloud!");
+        // 1. Ambil semua data booking yang sudah ada untuk dicek
+        onValue(dbRef, (snapshot) => {
+            let sudahAda = false;
+            
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val();
+                // 2. Cek apakah ada tanggal DAN jam yang sama
+                if (data.tanggal === tanggal && data.jam === jam) {
+                    sudahAda = true;
+                }
+            });
+
+            if (sudahAda) {
+                // 3. Jika sudah ada, kasih peringatan dan jangan simpan
+                alert("Maaf, jam ini sudah dipesan orang lain. Silakan pilih jam atau tanggal lain!");
+            } else {
+                // 4. Jika belum ada, baru boleh simpan
+                push(dbRef, { nama, tanggal, jam });
+                document.getElementById('nama').value = "";
+                alert("Booking Berhasil Simpan di Cloud!");
+            }
+        }, {
+            onlyOnce: true // Penting: Hanya cek sekali saja saat tombol diklik
+        });
+
     } else {
         alert("Isi nama dan tanggal dulu ya!");
     }
 }
-
-// Ambil data otomatis (Real-time)
-onValue(dbRef, (snapshot) => {
-    const listData = document.getElementById('listData');
-    listData.innerHTML = "";
-    snapshot.forEach((childSnapshot) => {
-        const data = childSnapshot.val();
-        const row = listData.insertRow();
-        row.innerHTML = `
-            <td>${data.nama}</td>
-            <td>${data.tanggal}</td>
-            <td>${data.jam}</td>
-            <td style="color: green; font-weight: bold;">Confirmed</td>
-        `;
-    });
-});
