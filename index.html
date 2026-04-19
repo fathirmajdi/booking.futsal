@@ -3,75 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Lapangan Futsal</title>
+    <title>Booking Lapangan Futsal - DP 5rb</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container" id="main-container">
         <div id="user-page">
-            <h1>⚽ Futsal Court Booking</h1>
+            <h1>⚽ Futsal Booking</h1>
             <div class="booking-form">
-                <h3>Pesan Lapangan</h3>
+                <h3>Form Booking (DP Rp 5.000)</h3>
                 <input type="text" id="nama" placeholder="Nama Pemesan" required>
-                <input type="tel" id="hp" placeholder="Nomor WhatsApp (Contoh: 0812...)" required>
+                <input type="tel" id="hp" placeholder="Nomor WhatsApp (08...)" required>
                 <input type="date" id="tanggal" required>
                 
                 <select id="jam">
                     <option value="07:00-08:00">07:00 - 08:00</option>
                     <option value="08:00-09:00">08:00 - 09:00</option>
                     <option value="09:00-10:00">09:00 - 10:00</option>
-                    <option value="10:00-11:00">10:00 - 11:00</option>
-                    <option value="11:00-12:00">11:00 - 12:00</option>
-                    <option value="12:00-13:00">12:00 - 13:00</option>
-                    <option value="13:00-14:00">13:00 - 14:00</option>
-                    <option value="14:00-15:00">14:00 - 15:00</option>
-                    <option value="15:00-16:00">15:00 - 16:00</option>
-                    <option value="16:00-17:00">16:00 - 17:00</option>
-                    <option value="17:00-18:00">17:00 - 18:00</option>
-                    <option value="18:00-19:00">18:00 - 19:00</option>
                     <option value="19:00-20:00">19:00 - 20:00</option>
                     <option value="20:00-21:00">20:00 - 21:00</option>
-                    <option value="21:00-22:00">21:00 - 22:00</option>
-                    <option value="22:00-23:00">22:00 - 23:00</option>
-                    <option value="23:00-00:00">23:00 - 00:00</option>
                 </select>
                 
-                <button onclick="tambahBooking()">Booking Sekarang</button>
+                <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 13px;">
+                    <strong>Penting:</strong> Transfer DP Rp 5.000 ke QRIS di bawah, lalu upload foto buktinya.
+                </div>
+                
+                <input type="file" id="bukti" accept="image/*" required>
+                <button onclick="tambahBooking()">Kirim & Booking Sekarang</button>
+            </div>
+
+            <div class="qris-section" style="text-align:center; margin-top:15px;">
+                <p>Scan QRIS DP 5rb:</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=DP_FUTSAL_5000" width="150">
             </div>
 
             <hr>
-
             <div class="booking-list">
-                <h3>Daftar Jadwal Terisi</h3>
+                <h3>Jadwal Terisi</h3>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>Status</th>
-                        </tr>
+                        <tr><th>Nama</th><th>Tanggal</th><th>Jam</th><th>Status</th></tr>
                     </thead>
                     <tbody id="listData"></tbody>
                 </table>
             </div>
-
             <p onclick="loginOwner()" class="login-owner-link">Login Owner</p>
         </div>
 
         <div id="admin-page" style="display: none;">
             <h2>Dashboard Owner</h2>
-            <button onclick="logoutOwner()" style="background-color: #e74c3c; width: auto; padding: 5px 15px; margin-bottom: 20px;">Keluar</button>
-            
+            <button onclick="location.reload()" style="background:#e74c3c; width:auto; margin-bottom:10px;">Keluar</button>
             <div class="booking-list">
-                <h3>Semua Data Booking (Privat)</h3>
                 <table>
                     <thead>
                         <tr>
                             <th>Nama</th>
                             <th>WhatsApp</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
+                            <th>Jadwal</th>
+                            <th>Bukti DP</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -80,17 +69,6 @@
             </div>
         </div>
     </div>
-
-    <div id="modal-qris" class="modal">
-        <div class="modal-content">
-            <h3>Scan Pembayaran</h3>
-            <p>Selesaikan pembayaran untuk konfirmasi booking.</p>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=FUTSAL_PAYMENT" alt="QRIS">
-            <p>Total: <b>Rp 150.000</b></p>
-            <button onclick="tutupModal()">Saya Sudah Bayar</button>
-        </div>
-    </div>
-
     <script type="module" src="script.js"></script>
 </body>
 </html>

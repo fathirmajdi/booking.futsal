@@ -1,87 +1,119 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+/* Layout Dasar */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f4f4f4; 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px; 
+} 
+
+/* Kotak Utama */
+.container { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 10px; 
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1); 
+    width: 400px; 
+    transition: width 0.3s ease;
+} 
+
+/* Lebar Otomatis saat jadi Admin */
+.container.admin-wide { 
+    width: 95%; 
+    max-width: 1100px; 
+} 
+
+/* Tipografi */
+h1 { 
+    text-align: center; 
+    color: #2c3e50; 
+    margin-bottom: 20px;
+} 
+
+h3 {
+    color: #34495e;
+    margin-top: 0;
 }
 
-.container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-    width: 400px;
-    transition: all 0.3s ease;
-}
-
-.container.admin-wide {
-    width: 90%;
-    max-width: 1000px;
-}
-
-h1, h2 { text-align: center; color: #2c3e50; }
-
-input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover { background-color: #219150; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
+/* Form Input & Button */
+input, select, button { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0; 
+    border: 1px solid #ddd; 
+    border-radius: 6px; 
+    box-sizing: border-box; 
     font-size: 14px;
+} 
+
+button { 
+    background-color: #27ae60; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+    font-weight: bold; 
+    text-transform: uppercase;
+} 
+
+button:hover { 
+    background-color: #219150; 
 }
 
-th { background-color: #f8f9fa; }
+/* Tabel Jadwal & Admin */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+    background: white;
+} 
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+th, td { 
+    padding: 12px; 
+    text-align: left; 
+    border: 1px solid #eee; 
+} 
+
+th { 
+    background-color: #f8f9fa; 
+    color: #333;
+    font-weight: 600;
+} 
+
+/* Dekorasi & Fitur Tambahan */
+.login-owner-link { 
+    text-align: center; 
+    color: #bbb; 
+    font-size: 11px; 
+    cursor: pointer; 
+    margin-top: 25px; 
+    text-decoration: underline;
+} 
+
+/* Efek Zoom Foto Bukti Transfer */
+.img-bukti { 
+    width: 60px; 
+    height: 40px;
+    object-fit: cover;
+    cursor: pointer; 
+    border-radius: 4px; 
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease; 
+} 
+
+.img-bukti:hover { 
+    transform: scale(4); 
+    position: relative; 
+    z-index: 99; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-.modal-content {
-    background-color: white;
-    margin: 10% auto;
-    padding: 25px;
-    width: 300px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-.modal-content img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
-
-.login-owner-link {
-    display: block;
-    text-align: center;
-    color: #ccc;
-    font-size: 10px;
-    margin-top: 30px;
-    cursor: pointer;
+/* Alert Box Kuning (Info DP) */
+.info-box {
+    background: #fff3cd; 
+    padding: 12px; 
+    border-radius: 6px; 
+    margin: 10px 0; 
+    font-size: 13px;
+    border-left: 4px solid #ffc107;
+    color: #856404;
 }
