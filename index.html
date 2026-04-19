@@ -49,26 +49,19 @@
             </div>
             <p onclick="loginOwner()" class="login-owner-link">Login Owner</p>
         </div>
-
-        <div id="admin-page" style="display: none;">
-            <h2>Dashboard Owner</h2>
-            <button onclick="location.reload()" style="background:#e74c3c; width:auto; margin-bottom:10px;">Keluar</button>
-            <div class="booking-list">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>WhatsApp</th>
-                            <th>Jadwal</th>
-                            <th>Bukti DP</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="listAdmin"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+<div id="admin-page" style="display:none;">
+    <h2>Dashboard Owner</h2>
+    <button onclick="location.reload()" style="background:red; color:white;">Keluar</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>WhatsApp</th>
+                <th>Tanggal</th>
+                <th>Jam</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="listAdmin"></tbody>
+    </table>
+</div>
