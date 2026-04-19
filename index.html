@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Lapangan Futsal</title>
+    <title>Sistem Booking Futsal - Final Project</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="user-page" class="container">
-        <h1>Booking Futsal</h1>
+        <h1>Booking Lapangan</h1>
+        
         <div class="booking-form">
-            <input type="text" id="nama" placeholder="Nama Pemesan">
-            <input type="tel" id="hp" placeholder="Nomor WhatsApp (Contoh: 0812...)">
+            <label>Informasi Pelanggan</label>
+            <input type="text" id="nama" placeholder="Nama Lengkap">
+            <input type="tel" id="hp" placeholder="Nomor WhatsApp">
+            
+            <label>Jadwal Main</label>
             <input type="date" id="tanggal">
             <select id="jam">
-                <option value="08:00 - 09:00">08:00 - 09:00</option>
-                <option value="09:00 - 10:00">09:00 - 10:00</option>
                 <option value="19:00 - 20:00">19:00 - 20:00</option>
                 <option value="20:00 - 21:00">20:00 - 21:00</option>
+                <option value="21:00 - 22:00">21:00 - 22:00</option>
             </select>
             
             <div class="info-box">
-                <strong>Penting:</strong> Transfer DP Rp 5.000 ke QRIS di bawah, lalu upload foto bukti.
+                <strong>Instruksi Pembayaran:</strong><br>
+                1. Scan QRIS DANA di bawah ini.<br>
+                2. Bayar DP sebesar Rp 5.000.<br>
+                3. Screenshot & upload bukti transfer.
             </div>
-            
-            <input type="file" id="bukti">
-            
-            <button type="button" onclick="tambahBooking()">KIRIM & BOOKING SEKARANG</button>
-        </div>
 
-        <div class="qris-section" style="text-align:center; margin-top:15px;">
-            <p>Scan QRIS DP 5rb:</p>
-            <img src="qris.jpg" width="180" style="border: 2px solid #ddd; border-radius: 10px;">
+            <div class="qris-section" style="text-align:center;">
+                <p>QRIS DANA Pembayaran:</p>
+                <img src="qris.jpg" alt="QRIS DANA" id="qris-img">
+            </div>
+
+            <label>Upload Bukti Pembayaran</label>
+            <input type="file" id="bukti" accept="image/*">
+            
+            <button type="button" onclick="tambahBooking()" id="btn-booking">KIRIM & BOOKING SEKARANG</button>
         </div>
 
         <h3>Jadwal Terisi</h3>
@@ -47,19 +54,20 @@
             <tbody id="listData"></tbody>
         </table>
         
-        <p class="login-owner-link" onclick="loginOwner()">Login Owner</p>
+        <span class="login-owner-link" onclick="loginOwner()">Panel Owner</span>
     </div>
 
     <div id="admin-page" class="container admin-wide" style="display:none;">
-        <h1>Dashboard Owner</h1>
-        <button onclick="location.reload()" style="background:#e74c3c; width: 100px;">Keluar</button>
+        <h1>Dashboard Manajemen Owner</h1>
+        <button onclick="location.reload()" class="btn-logout">Keluar Sistem</button>
+        
         <table>
             <thead>
                 <tr>
                     <th>Nama</th>
                     <th>WhatsApp</th>
-                    <th>Tanggal</th>
-                    <th>Jam</th>
+                    <th>Tanggal/Jam</th>
+                    <th>Bukti DP</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
