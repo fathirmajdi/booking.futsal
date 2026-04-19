@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// Konfigurasi Firebase kamu
 const firebaseConfig = {
     apiKey: "AIzaSyAXCRzyat67SeXm9HEvFJahpBNI_qN4mg",
     authDomain: "bookingfutsal-98db6.firebaseapp.com",
@@ -16,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(db, "bookings");
 
-// FUNGSI KIRIM DATA (TANPA UPLOAD FOTO BIAR GAK MACET)
+// SIMPAN BOOKING
 window.tambahBooking = function() {
     const nama = document.getElementById('nama').value;
     const hp = document.getElementById('hp').value;
@@ -24,68 +23,48 @@ window.tambahBooking = function() {
     const jam = document.getElementById('jam').value;
 
     if (nama && hp && tanggal) {
-        // Langsung simpan ke Database
         push(dbRef, {
             nama: nama,
             hp: hp,
             tanggal: tanggal,
             jam: jam,
-            status: "Pending"
+            timestamp: new Date().getTime()
         }).then(() => {
-            alert("Booking Berhasil Terkirim!");
+            alert("Booking Berhasil!");
             location.reload();
-        }).catch((err) => {
-            alert("Gagal: " + err.message);
-        });
+        }).catch((err) => alert("Error: " + err.message));
     } else {
-        alert("Lengkapi Nama, WA, dan Tanggal!");
+        alert("Lengkapi data pemesan!");
     }
 };
 
-// TAMPILAN JADWAL TERISI (USER)
+// LOAD DATA (USER & ADMIN)
 onValue(dbRef, (snapshot) => {
     const listData = document.getElementById('listData');
-    if (listData) {
-        listData.innerHTML = "";
-        snapshot.forEach((child) => {
-            const data = child.val();
-            listData.innerHTML += `<tr>
-                <td>${data.nama}</td>
-                <td>${data.tanggal}</td>
-                <td>${data.jam}</td>
-                <td style="color: green;">Confirmed</td>
-            </tr>`;
-        });
-    }
+    const listAdmin = document.getElementById('listAdmin');
+    listData.innerHTML = "";
+    listAdmin.innerHTML = "";
+
+    snapshot.forEach((child) => {
+        const d = child.val();
+        // Tampilan User
+        listData.innerHTML += `<tr><td>${d.nama}</td><td>${d.tanggal}</td><td>${d.jam}</td><td style="color:green">Booked</td></tr>`;
+        
+        // Tampilan Admin
+        const waFormat = d.hp.startsWith('0') ? '62' + d.hp.slice(1) : d.hp;
+        listAdmin.innerHTML += `<tr>
+            <td>${d.nama}</td>
+            <td>${d.hp}</td>
+            <td>${d.tanggal}</td>
+            <td>${d.jam}</td>
+            <td><a href="https://wa.me/${waFormat}" target="_blank" style="color:blue">Chat WA</a></td>
+        </tr>`;
+    });
 });
 
-// LOGIN OWNER
 window.loginOwner = function() {
-    const pass = prompt("Password Owner:");
-    if (pass === "1234") {
+    if (prompt("Masukkan Password Owner:") === "1234") {
         document.getElementById('user-page').style.display = 'none';
         document.getElementById('admin-page').style.display = 'block';
-        loadAdmin();
     }
 };
-
-// TAMPILAN DASHBOARD OWNER
-function loadAdmin() {
-    const listAdmin = document.getElementById('listAdmin');
-    onValue(dbRef, (snapshot) => {
-        listAdmin.innerHTML = "";
-        snapshot.forEach((child) => {
-            const data = child.val();
-            const waRaw = data.hp || "";
-            const waFormat = waRaw.startsWith('0') ? '62' + waRaw.slice(1) : waRaw;
-            
-            listAdmin.innerHTML += `<tr>
-                <td>${data.nama}</td>
-                <td>${data.hp}</td>
-                <td>${data.tanggal}</td>
-                <td>${data.jam}</td>
-                <td><a href="https://wa.me/${waFormat}" target="_blank" style="background:green; color:white; padding:5px; border-radius:3px; text-decoration:none;">Chat WA</a></td>
-            </tr>`;
-        });
-    });
-}

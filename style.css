@@ -1,119 +1,145 @@
-/* Layout Dasar */
-body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background-color: #f4f4f4; 
-    display: flex; 
-    justify-content: center; 
-    padding: 20px; 
-} 
+/* --- RESET & DASAR LAYOUT --- */
+/* Menghilangkan margin bawaan browser agar tampilan konsisten */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Kotak Utama */
-.container { 
-    background: white; 
-    padding: 30px; 
-    border-radius: 10px; 
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1); 
-    width: 400px; 
-    transition: width 0.3s ease;
-} 
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
 
-/* Lebar Otomatis saat jadi Admin */
-.container.admin-wide { 
-    width: 95%; 
-    max-width: 1100px; 
-} 
+/* --- CONTAINER UTAMA --- */
+.container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
 
-/* Tipografi */
-h1 { 
-    text-align: center; 
-    color: #2c3e50; 
-    margin-bottom: 20px;
-} 
+/* Modifikasi lebar khusus untuk Dashboard Admin/Owner */
+.admin-wide {
+    max-width: 1000px;
+}
+
+/* --- TYPOGRAPHY (JUDUL) --- */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1a73e8; /* Warna biru profesional */
+    font-size: 24px;
+}
 
 h3 {
-    color: #34495e;
-    margin-top: 0;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
 }
 
-/* Form Input & Button */
-input, select, button { 
-    width: 100%; 
-    padding: 12px; 
-    margin: 8px 0; 
-    border: 1px solid #ddd; 
-    border-radius: 6px; 
-    box-sizing: border-box; 
+/* --- FORM ELEMENT --- */
+/* Mengatur input teks, tanggal, dan dropdown */
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     font-size: 14px;
-} 
-
-button { 
-    background-color: #27ae60; 
-    color: white; 
-    border: none; 
-    cursor: pointer; 
-    font-weight: bold; 
-    text-transform: uppercase;
-} 
-
-button:hover { 
-    background-color: #219150; 
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-/* Tabel Jadwal & Admin */
-table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 20px; 
-    background: white;
-} 
+/* Efek saat input diklik (fokus) */
+input:focus, select:focus {
+    border-color: #1a73e8;
+}
 
-th, td { 
-    padding: 12px; 
-    text-align: left; 
-    border: 1px solid #eee; 
-} 
-
-th { 
-    background-color: #f8f9fa; 
-    color: #333;
+/* Tombol Submit Utama */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #28a745; /* Warna hijau sukses */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: 600;
-} 
-
-/* Dekorasi & Fitur Tambahan */
-.login-owner-link { 
-    text-align: center; 
-    color: #bbb; 
-    font-size: 11px; 
-    cursor: pointer; 
-    margin-top: 25px; 
-    text-decoration: underline;
-} 
-
-/* Efek Zoom Foto Bukti Transfer */
-.img-bukti { 
-    width: 60px; 
-    height: 40px;
-    object-fit: cover;
-    cursor: pointer; 
-    border-radius: 4px; 
-    border: 1px solid #ddd;
-    transition: transform 0.3s ease; 
-} 
-
-.img-bukti:hover { 
-    transform: scale(4); 
-    position: relative; 
-    z-index: 99; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-/* Alert Box Kuning (Info DP) */
+button:hover {
+    background-color: #218838;
+}
+
+/* --- KOMPONEN TABEL --- */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Menyatukan garis tabel */
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+tr:nth-child(even) {
+    background-color: #fcfcfc; /* Warna selang-seling baris */
+}
+
+/* --- KOMPONEN TAMBAHAN --- */
+/* Box Peringatan DP */
 .info-box {
-    background: #fff3cd; 
-    padding: 12px; 
-    border-radius: 6px; 
-    margin: 10px 0; 
-    font-size: 13px;
-    border-left: 4px solid #ffc107;
+    background-color: #fff3cd;
     color: #856404;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #ffc107;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Bagian Gambar QRIS */
+.qris-section img {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* Link kecil untuk Owner */
+.login-owner-link {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+    font-size: 12px;
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.login-owner-link:hover {
+    color: #666;
 }

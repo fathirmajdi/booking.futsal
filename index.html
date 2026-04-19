@@ -3,65 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Lapangan Futsal - DP 5rb</title>
+    <title>Booking Lapangan Futsal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container" id="main-container">
-        <div id="user-page">
-            <h1>⚽ Futsal Booking</h1>
-            <div class="booking-form">
-                <h3>Form Booking (DP Rp 5.000)</h3>
-                <input type="text" id="nama" placeholder="Nama Pemesan" required>
-                <input type="tel" id="hp" placeholder="Nomor WhatsApp (08...)" required>
-                <input type="date" id="tanggal" required>
-                
-                <select id="jam">
-                    <option value="07:00-08:00">07:00 - 08:00</option>
-                    <option value="08:00-09:00">08:00 - 09:00</option>
-                    <option value="09:00-10:00">09:00 - 10:00</option>
-                    <option value="19:00-20:00">19:00 - 20:00</option>
-                    <option value="20:00-21:00">20:00 - 21:00</option>
-                </select>
-                
-                <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 13px;">
-                    <strong>Penting:</strong> Transfer DP Rp 5.000 ke QRIS di bawah, lalu upload foto buktinya.
-                </div>
-                
-                <input type="file" id="bukti" accept="image/*" required>
-                <button onclick="tambahBooking()">Kirim & Booking Sekarang</button>
+    <div id="user-page" class="container">
+        <h1>Booking Futsal</h1>
+        <div class="booking-form">
+            <input type="text" id="nama" placeholder="Nama Pemesan">
+            <input type="tel" id="hp" placeholder="Nomor WhatsApp (Contoh: 0812...)">
+            <input type="date" id="tanggal">
+            <select id="jam">
+                <option value="08:00 - 09:00">08:00 - 09:00</option>
+                <option value="09:00 - 10:00">09:00 - 10:00</option>
+                <option value="19:00 - 20:00">19:00 - 20:00</option>
+                <option value="20:00 - 21:00">20:00 - 21:00</option>
+            </select>
+            
+            <div class="info-box">
+                <strong>Penting:</strong> Transfer DP Rp 5.000 ke QRIS di bawah, lalu upload foto bukti.
             </div>
-
-            <div class="qris-section" style="text-align:center; margin-top:15px;">
-                <p>Scan QRIS DP 5rb:</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=DP_FUTSAL_5000" width="150">
-            </div>
-
-            <hr>
-            <div class="booking-list">
-                <h3>Jadwal Terisi</h3>
-                <table>
-                    <thead>
-                        <tr><th>Nama</th><th>Tanggal</th><th>Jam</th><th>Status</th></tr>
-                    </thead>
-                    <tbody id="listData"></tbody>
-                </table>
-            </div>
-            <p onclick="loginOwner()" class="login-owner-link">Login Owner</p>
+            
+            <input type="file" id="bukti">
+            
+            <button type="button" onclick="tambahBooking()">KIRIM & BOOKING SEKARANG</button>
         </div>
-<div id="admin-page" style="display:none;">
-    <h2>Dashboard Owner</h2>
-    <button onclick="location.reload()" style="background:red; color:white;">Keluar</button>
-    <table>
-        <thead>
-            <tr>
-                <th>Nama</th>
-                <th>WhatsApp</th>
-                <th>Tanggal</th>
-                <th>Jam</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody id="listAdmin"></tbody>
-    </table>
-</div>
+
+        <div class="qris-section" style="text-align:center; margin-top:15px;">
+            <p>Scan QRIS DP 5rb:</p>
+            <img src="qris.jpg" width="180" style="border: 2px solid #ddd; border-radius: 10px;">
+        </div>
+
+        <h3>Jadwal Terisi</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Tanggal</th>
+                    <th>Jam</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="listData"></tbody>
+        </table>
+        
+        <p class="login-owner-link" onclick="loginOwner()">Login Owner</p>
+    </div>
+
+    <div id="admin-page" class="container admin-wide" style="display:none;">
+        <h1>Dashboard Owner</h1>
+        <button onclick="location.reload()" style="background:#e74c3c; width: 100px;">Keluar</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>WhatsApp</th>
+                    <th>Tanggal</th>
+                    <th>Jam</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="listAdmin"></tbody>
+        </table>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
