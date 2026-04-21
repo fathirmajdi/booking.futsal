@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, ref, push, onValue, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAXCRzyat67SeXm9HEvFJahpBNI_qN4mg",
@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(db, "bookings");
 
-// Fungsi merubah Gambar ke Teks (Base64)
+// Fungsi merubah Gambar ke Teks (Base64) - Solusi agar tidak perlu bayar Storage
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -23,7 +23,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = error => reject(error);
 });
 
-// FUNGSI UTAMA: TAMBAH BOOKING
+// FUNGSI UTAMA: TAMBAH BOOKING DENGAN CEK BENTROK JADWAL
 window.tambahBooking = async function() {
     const nama = document.getElementById('nama').value;
     const hp = document.getElementById('hp').value;
@@ -32,6 +32,7 @@ window.tambahBooking = async function() {
     const fileInput = document.getElementById('bukti');
     const btn = document.getElementById('btn-booking');
 
+    // Validasi Input
     if (!nama || !hp || !tanggal || fileInput.files.length === 0) {
         alert("Mohon lengkapi data dan upload bukti bayar!");
         return;
@@ -39,9 +40,31 @@ window.tambahBooking = async function() {
 
     try {
         btn.disabled = true;
+        btn.innerText = "Mengecek Jadwal...";
+
+        // --- PROSES CEK JADWAL BENTROK ---
+        const snapshot = await get(dbRef);
+        let sudahAda = false;
+
+        if (snapshot.exists()) {
+            snapshot.forEach((child) => {
+                const data = child.val();
+                // Jika tanggal DAN jam sama persis di database
+                if (data.tanggal === tanggal && data.jam === jam) {
+                    sudahAda = true;
+                }
+            });
+        }
+
+        if (sudahAda) {
+            alert("Maaf, jam ini sudah dipesan orang lain. Silakan pilih jadwal lain!");
+            btn.disabled = false;
+            btn.innerText = "KIRIM & BOOKING SEKARANG";
+            return;
+        }
+        // --------------------------------
+
         btn.innerText = "Mengirim...";
-        
-        // Convert gambar ke teks
         const fotoTeks = await toBase64(fileInput.files[0]);
 
         // Simpan ke Realtime Database
@@ -50,11 +73,11 @@ window.tambahBooking = async function() {
             hp: hp,
             tanggal: tanggal,
             jam: jam,
-            bukti: fotoTeks, // Gambar disimpan dalam bentuk teks
+            bukti: fotoTeks,
             status: "Selesai"
         });
 
-        alert("Booking Berhasil! Data sudah masuk ke sistem owner.");
+        alert("Booking Berhasil! Jadwal telah diamankan.");
         location.reload();
     } catch (err) {
         alert("Gagal mengirim: " + err.message);
@@ -63,20 +86,22 @@ window.tambahBooking = async function() {
     }
 };
 
-// LOAD DATA KE TABEL
+// LOAD DATA KE TABEL (USER & ADMIN)
 onValue(dbRef, (snapshot) => {
     const listData = document.getElementById('listData');
     const listAdmin = document.getElementById('listAdmin');
+    if (!listData || !listAdmin) return;
+
     listData.innerHTML = "";
     listAdmin.innerHTML = "";
 
     snapshot.forEach((child) => {
         const d = child.val();
         
-        // Tampilan Tabel User
+        // Tabel User: Menampilkan jadwal yang sudah penuh
         listData.innerHTML += `<tr><td>${d.nama}</td><td>${d.tanggal}</td><td>${d.jam}</td><td><span style="color:green">Confirmed</span></td></tr>`;
         
-        // Tampilan Tabel Admin
+        // Tabel Admin: Menampilkan detail lengkap termasuk bukti bayar
         const waFormat = d.hp.startsWith('0') ? '62' + d.hp.slice(1) : d.hp;
         listAdmin.innerHTML += `<tr>
             <td>${d.nama}</td>
@@ -88,7 +113,7 @@ onValue(dbRef, (snapshot) => {
     });
 });
 
-// LOGIN OWNER
+// PANEL LOGIN OWNER
 window.loginOwner = function() {
     if (prompt("Masukkan Password Akses Owner:") === "1234") {
         document.getElementById('user-page').style.display = 'none';
