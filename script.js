@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-// Menambahkan 'remove' untuk fitur hapus data
 import { getDatabase, ref, push, onValue, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
@@ -40,7 +39,6 @@ window.tambahBooking = async function() {
         btn.disabled = true;
         btn.innerText = "Mengecek Jadwal...";
 
-        // --- LOGIKA CEK JADWAL BENTROK ---
         const snapshot = await get(dbRef);
         let sudahAda = false;
 
@@ -59,7 +57,6 @@ window.tambahBooking = async function() {
             btn.innerText = "KIRIM & BOOKING SEKARANG";
             return;
         }
-        // --------------------------------
 
         btn.innerText = "Mengirim...";
         const fotoTeks = await toBase64(fileInput.files[0]);
@@ -91,24 +88,42 @@ onValue(dbRef, (snapshot) => {
 
     snapshot.forEach((child) => {
         const d = child.val();
-        const key = child.key; // Mengambil ID unik data untuk keperluan hapus
+        const key = child.key; 
         
         listData.innerHTML += `<tr><td>${d.nama}</td><td>${d.tanggal}</td><td>${d.jam}</td><td><span style="color:green">Confirmed</span></td></tr>`;
         
         const waFormat = d.hp.startsWith('0') ? '62' + d.hp.slice(1) : d.hp;
-        // Menambahkan kolom baru dengan tombol hapus (ikon tong sampah)
+        
+        // Di sini saya ganti window.open jadi bukaModal agar fotonya muncul di layar yang sama
         listAdmin.innerHTML += `<tr>
             <td>${d.nama}</td>
             <td>${d.hp}</td>
             <td>${d.tanggal}<br>${d.jam}</td>
-            <td><img src="${d.bukti}" width="80" style="border-radius:5px; cursor:pointer;" onclick="window.open('${d.bukti}')"></td>
+            <td>
+                <button onclick="bukaModal('${d.bukti}')" style="background:#444; color:white; padding:5px; cursor:pointer; border-radius:5px;">Lihat Foto</button>
+            </td>
             <td><a href="https://wa.me/${waFormat}" target="_blank" style="color:white; background:green; padding:5px 10px; border-radius:5px; text-decoration:none;">Chat WA</a></td>
             <td><button onclick="hapusBooking('${key}')" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; width:auto;">🗑️</button></td>
         </tr>`;
     });
 });
 
-// FUNGSI UNTUK MENGHAPUS DATA DARI FIREBASE
+// FUNGSI BARU UNTUK TAMPILIN FOTO (MODAL)
+window.bukaModal = function(sumberGambar) {
+    let modal = document.getElementById('modalFoto');
+    // Jika elemen modal belum ada di HTML, kita buat otomatis
+    if(!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modalFoto';
+        modal.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:9999; cursor:pointer;";
+        modal.onclick = function() { this.style.display = 'none'; };
+        document.body.appendChild(modal);
+    }
+    // Isi modal dengan gambar
+    modal.innerHTML = `<img src="${sumberGambar}" style="max-width:90%; max-height:90%; border:5px solid white; border-radius:10px;">`;
+    modal.style.display = 'flex';
+};
+
 window.hapusBooking = function(key) {
     if (confirm("Apakah Anda yakin ingin menghapus jadwal ini?")) {
         const dataRef = ref(db, `bookings/${key}`);
