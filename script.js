@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+// Menambahkan 'remove' agar bisa menghapus data
 import { getDatabase, ref, push, onValue, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
@@ -15,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(db, "bookings");
 
+// Fungsi merubah Gambar ke Teks (Base64) sesuai file asli
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -22,6 +24,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = error => reject(error);
 });
 
+// Fungsi Tambah Booking dengan Logika Cek Jadwal Bentrok
 window.tambahBooking = async function() {
     const nama = document.getElementById('nama').value;
     const hp = document.getElementById('hp').value;
@@ -79,6 +82,7 @@ window.tambahBooking = async function() {
     }
 };
 
+// LOAD DATA KE TABEL (User & Admin)
 onValue(dbRef, (snapshot) => {
     const listData = document.getElementById('listData');
     const listAdmin = document.getElementById('listAdmin');
@@ -94,7 +98,7 @@ onValue(dbRef, (snapshot) => {
         
         const waFormat = d.hp.startsWith('0') ? '62' + d.hp.slice(1) : d.hp;
         
-        // Di sini saya ganti window.open jadi bukaModal agar fotonya muncul di layar yang sama
+        // Tabel Admin menggunakan fitur bukaModal agar tidak download otomatis
         listAdmin.innerHTML += `<tr>
             <td>${d.nama}</td>
             <td>${d.hp}</td>
@@ -103,15 +107,14 @@ onValue(dbRef, (snapshot) => {
                 <button onclick="bukaModal('${d.bukti}')" style="background:#444; color:white; padding:5px; cursor:pointer; border-radius:5px;">Lihat Foto</button>
             </td>
             <td><a href="https://wa.me/${waFormat}" target="_blank" style="color:white; background:green; padding:5px 10px; border-radius:5px; text-decoration:none;">Chat WA</a></td>
-            <td><button onclick="hapusBooking('${key}')" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; width:auto;">🗑️</button></td>
+            <td><button onclick="hapusBooking('${key}')" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">🗑️</button></td>
         </tr>`;
     });
 });
 
-// FUNGSI BARU UNTUK TAMPILIN FOTO (MODAL)
-window.bukaModal = function(sumberGambar) {
+// FUNGSI MODAL (Tampil Foto di Layar Saja)
+window.bukaModal = function(src) {
     let modal = document.getElementById('modalFoto');
-    // Jika elemen modal belum ada di HTML, kita buat otomatis
     if(!modal) {
         modal = document.createElement('div');
         modal.id = 'modalFoto';
@@ -119,11 +122,11 @@ window.bukaModal = function(sumberGambar) {
         modal.onclick = function() { this.style.display = 'none'; };
         document.body.appendChild(modal);
     }
-    // Isi modal dengan gambar
-    modal.innerHTML = `<img src="${sumberGambar}" style="max-width:90%; max-height:90%; border:5px solid white; border-radius:10px;">`;
+    modal.innerHTML = `<img src="${src}" style="max-width:90%; max-height:90%; border:5px solid white; border-radius:10px;">`;
     modal.style.display = 'flex';
 };
 
+// FUNGSI HAPUS DATA
 window.hapusBooking = function(key) {
     if (confirm("Apakah Anda yakin ingin menghapus jadwal ini?")) {
         const dataRef = ref(db, `bookings/${key}`);
@@ -133,6 +136,7 @@ window.hapusBooking = function(key) {
     }
 };
 
+// LOGIN OWNER
 window.loginOwner = function() {
     if (prompt("Masukkan Password Akses Owner:") === "1234") {
         document.getElementById('user-page').style.display = 'none';
