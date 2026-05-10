@@ -1,5 +1,4 @@
 /* --- RESET & DASAR LAYOUT --- */
-/* Menghilangkan margin bawaan browser agar tampilan konsisten */
 * {
     margin: 0;
     padding: 0;
@@ -25,16 +24,16 @@ body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* Modifikasi lebar khusus untuk Dashboard Admin/Owner */
+/* Lebar Dashboard Owner */
 .admin-wide {
     max-width: 1000px;
 }
 
-/* --- TYPOGRAPHY (JUDUL) --- */
+/* --- TYPOGRAPHY --- */
 h1 {
     text-align: center;
     margin-bottom: 25px;
-    color: #1a73e8; /* Warna biru profesional */
+    color: #1a73e8;
     font-size: 24px;
 }
 
@@ -47,12 +46,7 @@ h3 {
 }
 
 /* --- FORM ELEMENT --- */
-/* Mengatur input teks, tanggal, dan dropdown */
-input[type="text"],
-input[type="tel"],
-input[type="date"],
-input[type="file"],
-select {
+input[type="text"], input[type="tel"], input[type="date"], input[type="file"], select {
     width: 100%;
     padding: 12px 15px;
     margin-bottom: 15px;
@@ -63,16 +57,14 @@ select {
     transition: border-color 0.3s;
 }
 
-/* Efek saat input diklik (fokus) */
 input:focus, select:focus {
     border-color: #1a73e8;
 }
 
-/* Tombol Submit Utama */
 button {
     width: 100%;
     padding: 14px;
-    background-color: #28a745; /* Warna hijau sukses */
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 8px;
@@ -86,10 +78,10 @@ button:hover {
     background-color: #218838;
 }
 
-/* --- KOMPONEN TABEL --- */
+/* --- TABEL --- */
 table {
     width: 100%;
-    border-collapse: collapse; /* Menyatukan garis tabel */
+    border-collapse: collapse;
     margin-top: 10px;
 }
 
@@ -106,11 +98,10 @@ th {
 }
 
 tr:nth-child(even) {
-    background-color: #fcfcfc; /* Warna selang-seling baris */
+    background-color: #fcfcfc;
 }
 
-/* --- KOMPONEN TAMBAHAN --- */
-/* Box Peringatan DP */
+/* --- KOMPONEN LAIN --- */
 .info-box {
     background-color: #fff3cd;
     color: #856404;
@@ -122,14 +113,6 @@ tr:nth-child(even) {
     line-height: 1.5;
 }
 
-/* Bagian Gambar QRIS */
-.qris-section img {
-    margin-top: 10px;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-}
-
-/* Link kecil untuk Owner */
 .login-owner-link {
     display: block;
     text-align: center;
@@ -140,6 +123,54 @@ tr:nth-child(even) {
     cursor: pointer;
 }
 
-.login-owner-link:hover {
-    color: #666;
+/* --- MODAL FOTO & DOWNLOAD (TAMBAHAN UTAMA) --- */
+#modalFoto {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: none; /* Muncul lewat JavaScript */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+#modalFoto img {
+    max-width: 85%;
+    max-height: 70%;
+    border: 5px solid white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-btn-container {
+    display: flex;
+    gap: 15px;
+}
+
+/* Tombol Download di dalam Modal */
+.btn-download {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Tombol Tutup di dalam Modal */
+.btn-close {
+    background-color: #dc3545;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    width: auto;
 }
