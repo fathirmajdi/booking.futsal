@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    // 1. Menampilkan halaman utama bagi pelanggan untuk mengisi data pemesanan lapangan
     <div id="user-page" class="container">
         <h1>Booking Lapangan queen</h1>
         
+        // 2. Menangkap data dari form input nama, nomor WhatsApp, tanggal, dan jam main pelanggan
         <div class="booking-form">
             <label>Informasi Pelanggan</label>
             <input type="text" id="nama" placeholder="Nama Lengkap">
@@ -33,10 +35,12 @@
                 <option value="19:00 - 20:00">19:00 - 20:00</option>
                 <option value="20:00 - 21:00">20:00 - 21:00</option>
                 <option value="21:00 - 22:00">21:00 - 22:00</option>
-                <option vslue="22:00 - 23:00">22:00 - 23:00</option>
+                // 3. Memperbaiki typo vslue menjadi value agar pilihan jam terbaca oleh sistem
+                <option value="22:00 - 23:00">22:00 - 23:00</option>
                 <option value="23:00 - 24:00">23:00 - 24:00</option>
             </select>
             
+            // 4. Menyediakan informasi alur petunjuk pembayaran DP menggunakan metode QRIS
             <div class="info-box">
                 <strong>Instruksi Pembayaran:</strong><br>
                 1. Scan QRIS DANA di bawah ini.<br>
@@ -44,17 +48,20 @@
                 3. Screenshot & upload bukti transfer.
             </div>
 
+            // 5. Menampilkan gambar kode QRIS sebagai metode transaksi pembayaran digital
             <div class="qris-section" style="text-align:center;">
                 <p>QRIS DANA Pembayaran:</p>
                 <img src="qris.jpg" alt="QRIS DANA" id="qris-img" width="200">
             </div>
 
+            // 6. Menyediakan kolom unggah file gambar khusus untuk berkas bukti transfer pelanggan
             <label>Upload Bukti Pembayaran</label>
             <input type="file" id="bukti" accept="image/*">
             
             <button type="button" onclick="tambahBooking()" id="btn-booking">KIRIM & BOOKING SEKARANG</button>
         </div>
 
+        // 7. Menampilkan tabel rekap jadwal terisi yang ditarik secara real-time dari Firebase untuk publik
         <h3>Jadwal Terisi</h3>
         <table>
             <thead>
@@ -68,13 +75,16 @@
             <tbody id="listData"></tbody>
         </table>
         
+        // 8. Menyediakan tombol pemicu login prompt sandi untuk masuk ke sistem dashboard manajemen
         <span class="login-owner-link" onclick="loginOwner()">Panel Owner</span>
     </div>
 
+    // 9. Menampilkan halaman manajemen admin owner yang disembunyikan secara bawaan dengan style display none
     <div id="admin-page" class="container admin-wide" style="display:none;">
         <h1>Dashboard Manajemen Owner</h1>
         <button onclick="location.reload()" class="btn-logout">Keluar Sistem</button>
         
+        // 10. Menampilkan tabel rekap booking lengkap khusus admin untuk verifikasi gambar bukti DP, chat WA, dan hapus jadwal
         <table>
             <thead>
                 <tr>
@@ -90,6 +100,7 @@
         </table>
     </div>
 
+    // 11. Memanggil berkas logika javascript eksternal dengan tipe modul agar mendukung integrasi library Firebase
     <script type="module" src="script.js"></script>
 </body>
 </html>

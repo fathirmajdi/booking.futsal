@@ -1,3 +1,4 @@
+// 1. Menghubungkan aplikasi web dengan server database cloud Google untuk proses sinkronisasi data.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, push, onValue, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -15,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(db, "bookings");
 
+// 2. Mengonversi file gambar bukti transfer menjadi string teks agar bisa disimpan langsung di Realtime Database.
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -22,6 +24,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = error => reject(error);
 });
 
+// 3. Menangkap data dari form HTML dan memastikan seluruh kolom serta file bukti transfer telah terisi.
 window.tambahBooking = async function() {
     const nama = document.getElementById('nama').value;
     const hp = document.getElementById('hp').value;
@@ -39,6 +42,7 @@ window.tambahBooking = async function() {
         btn.disabled = true;
         btn.innerText = "Mengecek Jadwal...";
 
+        // 4. Memeriksa database secara asynchronous untuk memastikan kombinasi tanggal dan jam belum terdaftar.
         const snapshot = await get(dbRef);
         let sudahAda = false;
 
@@ -58,6 +62,7 @@ window.tambahBooking = async function() {
             return;
         }
 
+        // 5. Mengirimkan objek data booking baru ke cloud Firebase dan melakukan refresh halaman setelah sukses.
         btn.innerText = "Mengirim...";
         const fotoTeks = await toBase64(fileInput.files[0]);
 
@@ -79,6 +84,7 @@ window.tambahBooking = async function() {
     }
 };
 
+// 6. Memantau perubahan database secara real-time untuk memperbarui tabel user dan admin tanpa reload, serta mengubah format nomor HP ke standar internasional (62) untuk WhatsApp.
 onValue(dbRef, (snapshot) => {
     const listData = document.getElementById('listData');
     const listAdmin = document.getElementById('listAdmin');
@@ -94,7 +100,6 @@ onValue(dbRef, (snapshot) => {
         
         const waFormat = d.hp.startsWith('0') ? '62' + d.hp.slice(1) : d.hp;
         
-        // Di sini saya ubah window.open menjadi bukaModal agar bisa di-download manual
         listAdmin.innerHTML += `<tr>
             <td>${d.nama}</td>
             <td>${d.hp}</td>
@@ -108,18 +113,16 @@ onValue(dbRef, (snapshot) => {
     });
 });
 
-// FUNGSI MODAL: Untuk lihat foto & download manual (biar memori gak otomatis penuh)
+// 7. Menampilkan gambar bukti transfer ukuran penuh dalam elemen modal overlay dinamis beserta fitur unduh file.
 window.bukaModal = function(src, nama) {
     let modal = document.getElementById('modalFoto');
     if(!modal) {
         modal = document.createElement('div');
         modal.id = 'modalFoto';
-        // Style modal agar muncul di tengah layar
         modal.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; flex-direction:column; justify-content:center; align-items:center; z-index:9999;";
         document.body.appendChild(modal);
     }
     
-    // Menampilkan gambar dan tombol download manual
     modal.innerHTML = `
         <img src="${src}" style="max-width:85%; max-height:70%; border:5px solid white; border-radius:10px; margin-bottom:20px;">
         <div style="display:flex; gap:10px;">
@@ -130,7 +133,7 @@ window.bukaModal = function(src, nama) {
     modal.style.display = 'flex';
 };
 
-// Fungsi Hapus tetap saya sertakan
+// 8. Menghapus node data spesifik berdasarkan ID unik (key), serta melakukan verifikasi string password untuk mengubah display layout ke halaman admin.
 window.hapusBooking = function(key) {
     if (confirm("Apakah Anda yakin ingin menghapus jadwal ini?")) {
         const dataRef = ref(db, `bookings/${key}`);
